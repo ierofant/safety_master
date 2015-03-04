@@ -1,10 +1,5 @@
 #include "policy.hpp"
 
-policy_base::policy_base()
-{
-
-}
-
 void
 policy_base::set_safety_level(safety_level &level)
 {
@@ -17,6 +12,10 @@ policy_base::set_last_update(time_point &last_update)
     this->last_update = &last_update;
 }
 
+policy_base::policy_base()
+{
+
+}
 
 void 
 manual_policy::exec()

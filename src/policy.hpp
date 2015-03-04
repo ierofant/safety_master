@@ -10,12 +10,12 @@ class policy_base
 public:
     typedef boost::chrono::steady_clock::time_point time_point;
 
-    policy_base();
-
     void set_safety_level(safety_level &level);
     void set_last_update(time_point &last_update);
 
 protected:
+    policy_base();
+
     safety_level *level;
     time_point *last_update;
 };

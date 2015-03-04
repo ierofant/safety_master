@@ -8,6 +8,7 @@ variable::variable()
 variable::variable(const ident_type &ident, const std::string &alias, variable_policy policy)
     : ident(ident),
       alias(alias),
+      level(safety),
       policy(policy)
 {
 
@@ -41,4 +42,10 @@ safety_level
 variable::get_safety_level() const
 {
     return level;
+}
+
+void
+variable::set_safety_level(safety_level level)
+{
+	this->level = level;
 }

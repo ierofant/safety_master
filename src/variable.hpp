@@ -16,7 +16,9 @@ public:
     unsigned get_subsystem() const;
     unsigned get_code() const;
     const std::string& get_alias() const;
+
     safety_level get_safety_level() const;
+    void set_safety_level(safety_level level);
 
 private:
     ident_type ident;
