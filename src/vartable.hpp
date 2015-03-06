@@ -16,8 +16,16 @@ public:
 
     void insert(const variable &var);
     safety_level get_safety_level(const std::string &alias) const;
+    void set_safety_level(const ident_type &ident, safety_level level);
 
 private:
+    struct set_level
+    {
+        set_level(safety_level level);
+        void operator()(variable &var) const;
+        safety_level level;
+    };
+
     struct by_ident;
     struct by_alias;
     typedef boost::multi_index_container<variable, indexed_by<

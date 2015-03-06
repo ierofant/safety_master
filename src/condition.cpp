@@ -3,7 +3,7 @@
 bool 
 cond_visitor::operator()(const comparator &op) const
 {
-    return boost::apply_visitor(comp_visitor(), op);
+    return op.compare();
 }
 
 bool 

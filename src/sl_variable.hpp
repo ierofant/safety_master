@@ -31,12 +31,6 @@ private:
     const vartable *table;
 };
 
-struct gsl_visitor : public boost::static_visitor<safety_level>
-{
-    template<typename T>
-    safety_level operator()(const T &var) const {return var.get_safety_level();}
-};
-
 class sl_variable
 {
 public:
@@ -47,11 +41,16 @@ public:
     safety_level get_safety_level() const;
 
 private:
+    struct gsl_visitor : boost::static_visitor<safety_level>
+    {
+        template<typename T>
+        safety_level operator()(const T &var) const {return var.get_safety_level();}
+    };
+
     typedef boost::variant<literal, refval> impl_type;
 
     impl_type impl;
 };
-
 
 class comp_equal;
 class comp_not_equal;
@@ -64,14 +63,32 @@ struct comp_op
     sl_variable left, right;
 };
 
-typedef boost::variant< comp_op<comp_equal>,
-                        comp_op<comp_not_equal>
-        > comparator;
-
-struct comp_visitor : public boost::static_visitor<bool>
+class comparator
 {
-    bool operator()(const comp_op<comp_equal> &op) const;
-    bool operator()(const comp_op<comp_not_equal> &op) const;
+public:
+    comparator();
+
+    template<typename Tag>
+    comparator(const comp_op<Tag> &op)
+        : impl(op)
+    {
+
+    }
+
+    bool compare() const;
+
+private:
+    struct comp_visitor : public boost::static_visitor<bool>
+    {
+        bool operator()(const comp_op<comp_equal> &op) const;
+        bool operator()(const comp_op<comp_not_equal> &op) const;
+    };
+
+    typedef boost::variant< comp_op<comp_equal>,
+                            comp_op<comp_not_equal>
+             > impl_type;
+
+    impl_type impl;
 };
 
 #endif //SL_VARIABLE_HPP

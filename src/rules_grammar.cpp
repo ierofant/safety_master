@@ -30,19 +30,19 @@ cond_or_cond(condition &c1, const condition &c2)
 void 
 set_condition(rule &r, const condition &c)
 {
-    r.cond = c;
+    r.set_condition(c);
 }
 
 void 
 set_level(rule &r, const literal &lit)
 {
-    r.level = lit.get_safety_level();
+    r.set_safety_level(lit.get_safety_level());
 }
 
 void
 set_beep(rule &r, bool beep)
 {
-    r.beep = beep;
+    r.set_beep(beep);
 }
 
 }

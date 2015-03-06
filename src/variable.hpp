@@ -10,7 +10,7 @@ public:
     typedef std::pair<unsigned, unsigned> ident_type;
 
     variable();
-    variable(const ident_type &ident, const std::string &alias, variable_policy policy);
+    variable(const ident_type &ident, const std::string &alias, variable_policy policy = manual_policy());
 
     const ident_type& get_ident() const;
     unsigned get_subsystem() const;
