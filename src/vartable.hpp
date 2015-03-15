@@ -14,9 +14,10 @@ class vartable
 public:
     typedef variable::ident_type ident_type;
 
-    void insert(const variable &var);
     safety_level get_safety_level(const std::string &alias) const;
     void set_safety_level(const ident_type &ident, safety_level level);
+    void insert(const variable &var);
+    void refresh();
 
 private:
     struct set_level
@@ -24,6 +25,11 @@ private:
         set_level(safety_level level);
         void operator()(variable &var) const;
         safety_level level;
+    };
+
+    struct refresh_variable
+    {
+        void operator()(variable &var) const;
     };
 
     struct by_ident;

@@ -13,6 +13,8 @@ public:
     void add_variable(const variable &var);
     void add_rule(const rule &r);
 
+    void refresh_vartable();
+
 private:
     vartable table;
     rules_list rules;

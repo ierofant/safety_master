@@ -3,6 +3,7 @@
 
 #include "server.hpp"
 #include "rules.hpp"
+#include "storage.hpp"
 
 class master : public io_service
 {
@@ -11,6 +12,8 @@ public:
     void bind_can(const std::string &candev);
     void read_config_from_file(const std::string &filename);
     void read_config(const std::string &str);
+
+    void refresh_vartable();
 
 private:
     server s;

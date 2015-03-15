@@ -9,9 +9,10 @@ variable::variable(const ident_type &ident, const std::string &alias, variable_p
     : ident(ident),
       alias(alias),
       level(safety),
-      policy(policy)
+      policy(policy),
+      last_update(boost::chrono::steady_clock::now())
 {
-
+    policy.set_parent(*this);
 }
 
 const variable::ident_type& 
@@ -47,5 +48,18 @@ variable::get_safety_level() const
 void
 variable::set_safety_level(safety_level level)
 {
-	this->level = level;
+    this->level = level;
+    last_update = boost::chrono::steady_clock::now();
+}
+
+variable::time_point
+variable::get_last_update() const
+{
+    return last_update;
+}
+
+void
+variable::refresh()
+{
+    policy.exec();
 }

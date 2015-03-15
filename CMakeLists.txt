@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 include(CTest)
 include_directories(src)
 
-find_package(Boost COMPONENTS system REQUIRED)
+find_package(Boost COMPONENTS chrono system REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 

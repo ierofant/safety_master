@@ -5,7 +5,7 @@
 void 
 master::bind_tcp(unsigned port)
 {
-    
+    s.bind(port);  
 }
 
 void 
@@ -35,4 +35,10 @@ master::read_config(const std::string &str)
 	std::string::iterator beg = local_str.begin(), end = local_str.end();
 	rules_grammar<std::string::iterator> grammar;
 	bool result = qi::phrase_parse(beg, end, grammar, qi::space, r);
+}
+
+void
+master::refresh_vartable()
+{
+    r.refresh_vartable();
 }

@@ -28,6 +28,18 @@ vartable::insert(const variable &var)
     table.insert(var);
 }
 
+void
+vartable::refresh()
+{
+    typedef table_type::index<by_ident>::type index_type;
+
+    index_type &index = table.get<by_ident>();
+    for(index_type::iterator itr = index.begin(), end = index.end(); itr != end; ++itr)
+    {
+        table.modify(itr, refresh_variable());
+    }
+}
+
 vartable::set_level::set_level(safety_level level)
     : level(level)
 {
@@ -38,4 +50,10 @@ void
 vartable::set_level::operator()(variable &var) const
 {
     var.set_safety_level(level);
+}
+
+void
+vartable::refresh_variable::operator()(variable &var) const
+{
+    var.refresh();
 }
