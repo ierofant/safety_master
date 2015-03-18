@@ -1,3 +1,4 @@
+#include <boost/bind.hpp>
 #include "master.hpp"
 
 storage::storage(master &service)
@@ -19,7 +20,7 @@ storage::on_timeout(const boost::system::error_code &error)
 {
 	if(error != boost::asio::error::operation_aborted)
 	{
-		master.refresh_vartable();
+		service.refresh_vartable();
 		start();
 	}
 }

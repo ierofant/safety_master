@@ -1,8 +1,8 @@
 project(sfm_test)
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+find_package(Boost COMPONENTS unit_test_framework thread REQUIRED)
 if(NOT Boost_USE_STATIC_LIBS)
-    add_definitions(-DBOOST_TEST_DYN_LINK)
+#    add_definitions(-DBOOST_TEST_DYN_LINK)
 endif()
 
 add_executable(policy policy.cpp)
