@@ -13,6 +13,9 @@ public:
 
     variable();
     variable(const ident_type &ident, const std::string &alias, variable_policy policy = manual_policy());
+    variable(const variable &other);
+
+    variable& operator=(const variable &other);
 
     const ident_type& get_ident() const;
     unsigned get_subsystem() const;

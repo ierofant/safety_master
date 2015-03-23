@@ -15,6 +15,27 @@ variable::variable(const ident_type &ident, const std::string &alias, variable_p
     policy.set_parent(*this);
 }
 
+variable::variable(const variable &other)
+    : ident(other.ident),
+      alias(other.alias),
+      level(other.level),
+      policy(other.policy),
+      last_update(other.last_update)
+{
+    policy.set_parent(*this);
+}
+
+variable&
+variable::operator=(const variable &other)
+{
+    ident = other.ident;
+    alias = other.alias;
+    level = other.level;
+    policy = other.policy;
+    last_update = other.last_update;
+    policy.set_parent(*this);
+}
+
 const variable::ident_type& 
 variable::get_ident() const
 {
