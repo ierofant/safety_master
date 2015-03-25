@@ -1,7 +1,7 @@
 #include <boost/bind.hpp>
 #include "master.hpp"
 
-boost::shared_ptr<connection> 
+/*static*/ boost::shared_ptr<connection> 
 connection::create(server &s)
 {
     return boost::shared_ptr<connection>(new connection(s));

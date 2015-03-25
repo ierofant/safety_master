@@ -1,8 +1,12 @@
 #include <fstream>
-#include "rules_grammar.hpp"
+#include "master.hpp"
 
-int main(int arc, char *argv[])
+int main(int argc, char *argv[])
 {
+    master app;
+    if(app.parse_options(argc, argv)) app.run();
+
+/*
     typedef std::istreambuf_iterator<char> iterator;
 
     std::ifstream file(argv[1]);
@@ -19,12 +23,12 @@ int main(int arc, char *argv[])
     else
     {
     	std::cout << "Error!" << std::endl;
-/*
+
         std::string str_err;
         std::copy(beg, end, std::back_inserter(str_err));
         std::cout << str_err << std::endl;
-*/
-    }
 
+    }
+*/
     return 0;
 }

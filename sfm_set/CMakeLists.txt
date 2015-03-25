@@ -1,0 +1,15 @@
+project(sfm_set)
+cmake_minimum_required(VERSION 2.8)
+
+find_package(Boost COMPONENTS system program_options REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+link_directories(${Boost_LIBRARY_DIR})
+
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SFM_SET_SOURCE)
+add_executable(sfm_set ${SFM_SET_SOURCE})
+target_link_libraries(sfm_set ${Boost_LIBRARIES})
+if(WIN32)
+	find_library(WSOCK32_LIBRARY wsock32)
+	find_library(WS2_32_LIBRARY ws2_32)
+	target_link_libraries(sfm_set ${WSOCK32_LIBRARY} ${WS2_32_LIBRARY})
+endif(WIN32)

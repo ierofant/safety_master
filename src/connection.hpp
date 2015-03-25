@@ -11,7 +11,7 @@ class server;
 class connection : public boost::enable_shared_from_this<connection>
 {
 public:
-    boost::shared_ptr<connection> create(server &s);
+    static boost::shared_ptr<connection> create(server &s);
     tcp::socket& get_socket();
     void receive();
 
