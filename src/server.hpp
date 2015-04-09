@@ -15,9 +15,9 @@ public:
     void disconnect(const boost::shared_ptr<connection> &client);
 
 private:
-	void connect(const boost::shared_ptr<connection> &client);
-	void accept();
-	void on_accept(boost::shared_ptr<connection> client, const boost::system::error_code &error);
+    void connect(const boost::shared_ptr<connection> &client);
+    void accept();
+    void on_accept(boost::shared_ptr<connection> client, const boost::system::error_code &error);
 
     master &service;
     tcp::acceptor acceptor;
