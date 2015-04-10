@@ -5,15 +5,15 @@
 
 BOOST_AUTO_TEST_CASE(auto_policy_exec)
 {
-	variable var;
+    variable var;
 
-	auto_policy<safety> policy;
-	policy.set_parent(var);
+    auto_policy<safety> policy;
+    policy.set_parent(var);
 	
-	policy.set_safety_level(clear);
-	BOOST_CHECK_EQUAL(var.get_safety_level(), clear);
+    policy.set_safety_level(clear);
+    BOOST_CHECK_EQUAL(var.get_safety_level(), clear);
 
-	boost::this_thread::sleep_for(boost::chrono::seconds(1));
-	policy.exec();
-	BOOST_CHECK_EQUAL(var.get_safety_level(), safety);
+    boost::this_thread::sleep_for(boost::chrono::seconds(1));
+    policy.exec();
+    BOOST_CHECK_EQUAL(var.get_safety_level(), safety);
 }

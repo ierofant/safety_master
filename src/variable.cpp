@@ -1,4 +1,5 @@
 #include "variable.hpp"
+#include "output.hpp"
 
 variable::variable()
 {
@@ -71,6 +72,8 @@ variable::set_safety_level(safety_level level)
 {
     this->level = level;
     last_update = boost::chrono::steady_clock::now();
+
+    out << "set " << ident.first << '.' << ident.second << '=' << level << std::endl;;
 }
 
 variable::time_point

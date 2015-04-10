@@ -43,7 +43,10 @@ int main(int argc, char *argv[])
             std::string level = variables["level"].as<std::string>();
 
             const char *level_arr[] = {"clear", "urgent", "warning1", "warning2"};
-            if(std::find(boost::begin(level_arr), boost::end(level_arr), level) == boost::end(level_arr)) std::runtime_error("Bad level");
+            const char **beg = boost::begin(level_arr);
+            const char **end = boost::end(level_arr);
+            const char **itr = std::find(beg, end, level);
+            if(itr == end) std::runtime_error("Bad level");
 
             io_service service;
             tcp::socket socket(service, tcp::v4());
@@ -53,7 +56,7 @@ int main(int argc, char *argv[])
             request.put("type", 0);
             request.put("request.subsystem", subsystem);
             request.put("request.code", code);
-            //request.put("request.value");
+            request.put("request.level", std::distance(beg, itr));
 
             std::stringstream stream;
             write_json(stream, request, false);

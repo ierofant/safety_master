@@ -84,7 +84,7 @@ struct rules_grammar : public qi::grammar<Iterator, rules(), qi::space_type>
 
 
         l_out = qi::string("level") >> *qi::space >> qi::char_(':') >> *qi::space >> lit[qi::_val = qi::_1];
-        b_out = qi::string("beep") >> *qi::space >> qi::char_(':') >> *qi::space >> (qi::uint_(0) | qi::uint_(1));
+        b_out = qi::string("beep") >> *qi::space >> qi::char_(':') >> *qi::space >> (qi::uint_(0) | qi::uint_(1))[qi::_val = qi::_1];
 
         r = qi::string("if") >> *qi::space >> cond[set_condition(qi::_val, qi::_1)] >> *qi::space >> qi::string("then") >> *qi::space
             >> -((l_out[set_level(qi::_val, qi::_1)] >> *qi::space) | (b_out[set_beep(qi::_val, qi::_1)] >> *qi::space))

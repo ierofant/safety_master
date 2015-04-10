@@ -12,8 +12,11 @@ public:
 
     void add_variable(const variable &var);
     void add_rule(const rule &r);
-
+    void set_safety_level(const ident_type &ident, safety_level level);
     void refresh_vartable();
+
+    safety_level calculate_safety_level() const;
+    bool calculate_beep() const;
 
 private:
     vartable table;

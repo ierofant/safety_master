@@ -2,6 +2,7 @@
 #include <boost/program_options.hpp>
 #include "master.hpp"
 #include "rules_grammar.hpp"
+#include "output.hpp"
 
 master::master()
     : s(*this)
@@ -24,8 +25,8 @@ master::parse_options(int argc, char *argv[])
         ("port,p", value<unsigned>()->default_value(default_port), "TCP port")
         ("candev,d", value<std::string>()->default_value(default_candev), "CAN device name")
         ("rules,r", value<std::string>()->default_value(default_config), "Rules file")
-//        ("verbose,v", "Verbose")
-        ("help,h", "This help messsge")
+        ("verbose,v", "Verbose")
+        ("help,h", "This help message")
     ;
  
     variables_map variables;
@@ -44,6 +45,9 @@ master::parse_options(int argc, char *argv[])
         std::string candev = variables["candev"].as<std::string>();
         std::string rules = variables["rules"].as<std::string>();
 
+        out.set_verbose(variables.count("verbose"));
+        out.set_verbose(variables.count("verbose"));
+
         bind_tcp(port);
         bind_can(candev);
         read_config_from_file(rules);
@@ -53,10 +57,18 @@ master::parse_options(int argc, char *argv[])
     return result;
 }
 
+void 
+master::set_safety_level(ident_type ident, safety_level level)
+{
+    r.set_safety_level(ident, level);
+    update();
+}
+
 void
 master::refresh_vartable()
 {
     r.refresh_vartable();
+    update();
 }
 
 void 
@@ -88,10 +100,10 @@ master::read_config_from_file(const std::string &filename)
 void
 master::read_config(const std::string &str)
 {
-	std::string local_str = str;
-	std::string::iterator beg = local_str.begin(), end = local_str.end();
-	rules_grammar<std::string::iterator> grammar;
-	bool result = qi::phrase_parse(beg, end, grammar, qi::space, r);
+    std::string local_str = str;
+    std::string::iterator beg = local_str.begin(), end = local_str.end();
+    rules_grammar<std::string::iterator> grammar;
+    bool result = qi::phrase_parse(beg, end, grammar, qi::space, r);
     if(result && (beg == end))
     {
 
@@ -101,4 +113,13 @@ master::read_config(const std::string &str)
         std::cerr << "Error: Invalid rules!" << std::endl;
         std::terminate();
     }
+}
+
+void
+master::update()
+{
+    safety_level level = r.calculate_safety_level();
+    bool beep = r.calculate_beep();
+
+std::cout << level << ' ' << beep << std::endl;
 }
