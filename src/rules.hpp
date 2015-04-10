@@ -15,8 +15,7 @@ public:
     void set_safety_level(const ident_type &ident, safety_level level);
     void refresh_vartable();
 
-    safety_level calculate_safety_level() const;
-    bool calculate_beep() const;
+    void calculate(safety_level &level, bool &beep) const;
 
 private:
     vartable table;

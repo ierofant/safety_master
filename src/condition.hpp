@@ -43,4 +43,26 @@ struct cond_visitor : public boost::static_visitor<bool>
     bool operator()(const binary_op<cond_and> &op) const;
 };
 
+struct set_vartable_visitor : public boost::static_visitor<void>
+{
+    set_vartable_visitor(vartable &table);
+
+    void operator()(comparator &op) const;
+    
+    template<typename Tag>
+    void operator()(unary_op<Tag> &op) const
+    {
+        boost::apply_visitor(set_vartable_visitor(table), op.cond);
+    }
+
+    template<typename Tag>
+    void operator()(binary_op<Tag> &op) const
+    {
+        boost::apply_visitor(set_vartable_visitor(table), op.left);
+        boost::apply_visitor(set_vartable_visitor(table), op.right);
+    }
+
+    vartable &table;
+};
+
 #endif //CONDITION_HPP

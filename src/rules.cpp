@@ -10,6 +10,7 @@ void
 rules::add_rule(const rule &r)
 {
     rules.push_back(r);
+    rules.back().set_vartable(table);
 }
 
 void 
@@ -24,23 +25,21 @@ rules::refresh_vartable()
     table.refresh();
 }
 
-safety_level 
-rules::calculate_safety_level() const
+void 
+rules::calculate(safety_level &level, bool &beep) const
 {
-    safety_level result = safety;
+    level = clear;
+    beep = false;
 
-    return result;
-}
-
-bool
-rules::calculate_beep() const
-{
-    bool result = false;
-    for(rules_list::const_iterator itr = rules.begin(); itr != rules.end(); ++itr) 
+    for(rules_list::const_iterator itr = rules.begin(); itr != rules.end(); ++itr)
     {
-        result = itr->get_beep();
-        if(result) break;
-    }
+        if(itr->check())
+        {
+            boost::optional<safety_level> level_out = itr->get_safety_level();
+            boost::optional<bool> beep_out = itr->get_beep();
 
-    return result;
+            if(beep_out) beep |= *beep_out;
+            if(level_out) level = std::max(level, *level_out);
+        }
+    }
 }

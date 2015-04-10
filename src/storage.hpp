@@ -7,15 +7,15 @@ class master;
 class storage
 {
 public:
-	storage(master &service);
+    storage(master &service);
 
-	void start();
+    void start();
 
 private:
-	void on_timeout(const boost::system::error_code &error);
+    void on_timeout(const boost::system::error_code &error);
 
-	master &service;
-	boost::asio::steady_timer timer;
+    master &service;
+    boost::asio::steady_timer timer;
 };
 
 #endif //STORAGE_HPP

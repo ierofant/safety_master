@@ -61,6 +61,12 @@ sl_variable::get_safety_level() const
     return boost::apply_visitor(gsl_visitor(), impl);
 }
 
+void 
+sl_variable::set_vartable(vartable &table)
+{
+    boost::apply_visitor(set_vartable_visitor(table), impl);    
+}
+
 comparator::comparator()
 {
 
@@ -70,6 +76,12 @@ bool
 comparator::compare() const
 {
     return boost::apply_visitor(comp_visitor(), impl);
+}
+
+void 
+comparator::set_vartable(vartable &table)
+{
+    boost::apply_visitor(set_vartable_visitor(table), impl);
 }
 
 bool 
@@ -82,4 +94,10 @@ bool
 comparator::comp_visitor::operator()(const comp_op<comp_not_equal> &op) const
 {
     return op.left.get_safety_level() != op.right.get_safety_level();
+}
+
+comparator::set_vartable_visitor::set_vartable_visitor(vartable &table)
+    : table(table)
+{
+
 }

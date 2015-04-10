@@ -25,3 +25,15 @@ cond_visitor::operator()(const binary_op<cond_and> &op) const
     return boost::apply_visitor(cond_visitor(), op.left)
         && boost::apply_visitor(cond_visitor(), op.right);
 }
+
+set_vartable_visitor::set_vartable_visitor(vartable &table)
+    : table(table)
+{
+
+}
+
+void 
+set_vartable_visitor::operator()(comparator &op) const
+{
+    op.set_vartable(table);
+}

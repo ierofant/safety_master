@@ -5,7 +5,8 @@
 #include "output.hpp"
 
 master::master()
-    : s(*this)
+    : s(*this),
+      timer(*this)
 {
 
 }
@@ -51,6 +52,7 @@ master::parse_options(int argc, char *argv[])
         bind_tcp(port);
         bind_can(candev);
         read_config_from_file(rules);
+        timer.start();
         result = true;   
     }
 
@@ -118,8 +120,10 @@ master::read_config(const std::string &str)
 void
 master::update()
 {
-    safety_level level = r.calculate_safety_level();
-    bool beep = r.calculate_beep();
+    safety_level level;
+    bool beep;
 
-std::cout << level << ' ' << beep << std::endl;
+    r.calculate(level, beep);
+
+    out << "level=" << level << " beep=" << beep << std::endl;
 }

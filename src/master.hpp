@@ -26,6 +26,7 @@ private:
 private:
     server s;
     rules r;
+    storage timer;
 };
 
 #endif //MASTER_HPP

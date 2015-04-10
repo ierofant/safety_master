@@ -1,6 +1,7 @@
 #ifndef RULE_HPP
 #define RULE_HPP
 
+#include <boost/optional.hpp>
 #include "condition.hpp"
 
 class rule
@@ -8,18 +9,21 @@ class rule
 public:
     rule();
 
+    void set_vartable(vartable &table);
     void set_condition(const condition &cond);
+    bool check() const;
 
-    safety_level get_safety_level() const;
+    boost::optional<safety_level> get_safety_level() const;
     void set_safety_level(safety_level level);
 
-    bool get_beep() const;
+    boost::optional<bool> get_beep() const;
     void set_beep(bool beep);
 
 private:
     condition cond;
-    safety_level level;
-    bool beep;
+
+    boost::optional<safety_level> level;
+    boost::optional<bool> beep;
 };
 
 #endif //RULE_HPP

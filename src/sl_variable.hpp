@@ -39,12 +39,23 @@ public:
     sl_variable(const refval &ref);
 
     safety_level get_safety_level() const;
+    void set_vartable(vartable &table);
 
 private:
-    struct gsl_visitor : boost::static_visitor<safety_level>
+    struct gsl_visitor : public boost::static_visitor<safety_level>
     {
         template<typename T>
         safety_level operator()(const T &var) const {return var.get_safety_level();}
+    };
+
+    struct set_vartable_visitor : public boost::static_visitor<void>
+    {
+        set_vartable_visitor(vartable &table) : table(table) {}
+
+        template<typename T>
+        void operator()(T &var) const {return var.set_vartable(table);}
+
+        vartable &table;
     };
 
     typedef boost::variant<literal, refval> impl_type;
@@ -76,12 +87,27 @@ public:
     }
 
     bool compare() const;
+    void set_vartable(vartable &table);
 
 private:
     struct comp_visitor : public boost::static_visitor<bool>
     {
         bool operator()(const comp_op<comp_equal> &op) const;
         bool operator()(const comp_op<comp_not_equal> &op) const;
+    };
+
+    struct set_vartable_visitor : public boost::static_visitor<void>
+    {
+        set_vartable_visitor(vartable &table);
+
+        template<typename Tag>
+        void operator()(comp_op<Tag> &op) const
+        {
+            op.left.set_vartable(table);
+            op.right.set_vartable(table);
+        }
+
+        vartable &table;
     };
 
     typedef boost::variant< comp_op<comp_equal>,

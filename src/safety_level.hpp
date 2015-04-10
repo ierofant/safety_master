@@ -9,4 +9,10 @@ enum safety_level
     warning2 = 3
 };
 
+bool 
+operator<(safety_level level1, safety_level level2);
+
+bool
+operator>(safety_level level1, safety_level level2);
+
 #endif //SAFETY_LEVEL_HPP
