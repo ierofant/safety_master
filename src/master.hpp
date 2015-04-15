@@ -4,6 +4,7 @@
 #include "server.hpp"
 #include "rules.hpp"
 #include "storage.hpp"
+#include "can.hpp"
 
 class master : public io_service
 {
@@ -27,6 +28,7 @@ private:
     server s;
     rules r;
     storage timer;
+    can c;
 };
 
 #endif //MASTER_HPP

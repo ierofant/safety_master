@@ -96,6 +96,30 @@ comparator::comp_visitor::operator()(const comp_op<comp_not_equal> &op) const
     return op.left.get_safety_level() != op.right.get_safety_level();
 }
 
+bool
+comparator::comp_visitor::operator()(const comp_op<comp_less> &op) const
+{
+    return op.left.get_safety_level() < op.right.get_safety_level();
+}
+
+bool
+comparator::comp_visitor::operator()(const comp_op<comp_greater> &op) const
+{
+    return op.left.get_safety_level() > op.right.get_safety_level();
+}
+
+bool
+comparator::comp_visitor::operator()(const comp_op<comp_less_or_equal> &op) const
+{
+    return op.left.get_safety_level() <= op.right.get_safety_level();
+}
+
+bool
+comparator::comp_visitor::operator()(const comp_op<comp_greater_or_equal> &op) const
+{
+    return op.left.get_safety_level() >= op.right.get_safety_level();
+}
+
 comparator::set_vartable_visitor::set_vartable_visitor(vartable &table)
     : table(table)
 {

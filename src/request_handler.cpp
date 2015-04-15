@@ -67,13 +67,13 @@ request_handler::handle_set_level(const boost::property_tree::ptree &request, bo
 {
     unsigned sub = request.get<unsigned>("request.subsystem");
     unsigned code = request.get<unsigned>("request.code");
-    safety_level level = static_cast<safety_level>(request.get<unsigned>("request.level"));
+    safety_level level = static_cast<safety_level>(request.get<unsigned>("request.safety_level"));
 
     service.set_safety_level(variable::ident_type(sub, code), level);
 
     response.put("type", SET_LEVEL);
     response.put("response.result", true);
-    response.put("response.level", level);
+    response.put("response.safety_level", level);
 }
 
 void 

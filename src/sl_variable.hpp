@@ -65,6 +65,10 @@ private:
 
 class comp_equal;
 class comp_not_equal;
+class comp_less;
+class comp_greater;
+class comp_less_or_equal;
+class comp_greater_or_equal;
 
 template<typename Tag>
 struct comp_op
@@ -94,6 +98,10 @@ private:
     {
         bool operator()(const comp_op<comp_equal> &op) const;
         bool operator()(const comp_op<comp_not_equal> &op) const;
+        bool operator()(const comp_op<comp_less> &op) const;
+        bool operator()(const comp_op<comp_greater> &op) const;
+        bool operator()(const comp_op<comp_less_or_equal> &op) const;
+        bool operator()(const comp_op<comp_greater_or_equal> &op) const;
     };
 
     struct set_vartable_visitor : public boost::static_visitor<void>
@@ -111,7 +119,11 @@ private:
     };
 
     typedef boost::variant< comp_op<comp_equal>,
-                            comp_op<comp_not_equal>
+                            comp_op<comp_not_equal>,
+                            comp_op<comp_less>,
+                            comp_op<comp_greater>,
+                            comp_op<comp_less_or_equal>,
+                            comp_op<comp_greater_or_equal>
              > impl_type;
 
     impl_type impl;

@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
             request.put("type", 0);
             request.put("request.subsystem", subsystem);
             request.put("request.code", code);
-            request.put("request.level", std::distance(beg, itr));
+            request.put("request.safety_level", std::distance(beg, itr));
 
             std::stringstream stream;
             write_json(stream, request, false);

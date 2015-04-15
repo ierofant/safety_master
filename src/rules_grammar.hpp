@@ -72,7 +72,11 @@ struct rules_grammar : public qi::grammar<Iterator, rules(), qi::space_type>
 
         c_equal = (sl_var >> -qi::space >> qi::string("==") >> -qi::space >> sl_var)[qi::_val = phoenix::construct<comp_op<comp_equal> >(qi::_1, qi::_5)];
         cn_equal = (sl_var >> -qi::space >> qi::string("!=") >> -qi::space >> sl_var)[qi::_val = phoenix::construct<comp_op<comp_not_equal> >(qi::_1, qi::_5)];
-        comp = c_equal | cn_equal;
+        c_less = (sl_var >> -qi::space >> qi::string("<") >> -qi::space >> sl_var)[qi::_val = phoenix::construct<comp_op<comp_less> >(qi::_1, qi::_5)];
+        c_greater = (sl_var >> -qi::space >> qi::string(">") >> -qi::space >> sl_var)[qi::_val = phoenix::construct<comp_op<comp_greater> >(qi::_1, qi::_5)];
+        c_less_or_equal = (sl_var >> -qi::space >> qi::string("<=") >> -qi::space >> sl_var)[qi::_val = phoenix::construct<comp_op<comp_less_or_equal> >(qi::_1, qi::_5)];
+        c_greater_or_equal = (sl_var >> -qi::space >> qi::string(">=") >> -qi::space >> sl_var)[qi::_val = phoenix::construct<comp_op<comp_greater_or_equal> >(qi::_1, qi::_5)];
+        comp = c_equal | cn_equal | c_less | c_greater | c_less_or_equal | c_greater_or_equal;
 
         factor = comp[qi::_val = qi::_1]
                 | qi::char_('(') >> -qi::space >> cond[qi::_val = qi::_1] >> -qi::space >> qi::char_(')')
@@ -106,6 +110,10 @@ struct rules_grammar : public qi::grammar<Iterator, rules(), qi::space_type>
 
     qi::rule<Iterator, comp_op<comp_equal>()> c_equal;
     qi::rule<Iterator, comp_op<comp_not_equal>()> cn_equal;
+    qi::rule<Iterator, comp_op<comp_less>()> c_less;
+    qi::rule<Iterator, comp_op<comp_greater>()> c_greater;
+    qi::rule<Iterator, comp_op<comp_less_or_equal>()> c_less_or_equal;
+    qi::rule<Iterator, comp_op<comp_greater_or_equal>()> c_greater_or_equal;
     qi::rule<Iterator, comparator()> comp;
 
     qi::rule<Iterator, condition()> cond, term, factor;

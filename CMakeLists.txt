@@ -2,9 +2,13 @@ project(safety_master)
 cmake_minimum_required(VERSION 2.8)
 
 include(CTest)
+include(CheckIncludeFile)
 include_directories(src)
 
-find_package(Boost COMPONENTS chrono system program_options REQUIRED)
+check_include_file("linux/can.h" HAVE_LINUX_CAN_H)
+add_definitions(-DHAVE_LINUX_CAN_H)
+
+find_package(Boost COMPONENTS chrono system program_options thread REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 

@@ -47,7 +47,7 @@ master::parse_options(int argc, char *argv[])
         std::string rules = variables["rules"].as<std::string>();
 
         out.set_verbose(variables.count("verbose"));
-        out.set_verbose(variables.count("verbose"));
+        err.set_verbose(variables.count("verbose"));
 
         bind_tcp(port);
         bind_can(candev);
@@ -82,7 +82,7 @@ master::bind_tcp(unsigned port)
 void 
 master::bind_can(const std::string &candev)
 {
-
+    c.bind(candev);
 }
 
 void 
@@ -124,6 +124,6 @@ master::update()
     bool beep;
 
     r.calculate(level, beep);
-
-    out << "level=" << level << " beep=" << beep << std::endl;
+    c.set_safety_level(level);
+    c.set_beep(beep);
 }
